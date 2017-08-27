@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SimplePageSlideView_Example' do
+  pod 'SimplePageSlideView', :path => '../'
+
+  target 'SimplePageSlideView_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
