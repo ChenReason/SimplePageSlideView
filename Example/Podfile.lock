@@ -1,0 +1,16 @@
+PODS:
+  - SimplePageSlideView (0.1.0)
+
+DEPENDENCIES:
+  - SimplePageSlideView (from `../`)
+
+EXTERNAL SOURCES:
+  SimplePageSlideView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SimplePageSlideView: 4b193a83c487eba3717ca8eb079766c91ab0c5a2
+
+PODFILE CHECKSUM: 3b80a680c4de63060a7c3296a4b5e9a83ff24cec
+
+COCOAPODS: 1.2.1
