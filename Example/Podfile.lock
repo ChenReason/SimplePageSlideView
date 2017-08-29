@@ -1,5 +1,7 @@
 PODS:
-  - SimplePageSlideView (0.1.0)
+  - SimplePageSlideView (0.1.0):
+    - SnapKit
+  - SnapKit (3.2.0)
 
 DEPENDENCIES:
   - SimplePageSlideView (from `../`)
@@ -9,7 +11,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SimplePageSlideView: 4b193a83c487eba3717ca8eb079766c91ab0c5a2
+  SimplePageSlideView: d3662cbe685ee7e7a353b3ca1add292618133c69
+  SnapKit: 1ca44df72cfa543218d177cb8aab029d10d86ea7
 
 PODFILE CHECKSUM: 3b80a680c4de63060a7c3296a4b5e9a83ff24cec
 

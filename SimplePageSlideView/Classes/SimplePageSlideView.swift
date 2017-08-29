@@ -8,28 +8,29 @@
 
 import UIKit
 
-
-protocol SlideContainerViewDataSource: class {
-    func itemView(in containerView: SlideContainerView, willMoveTo direction: Direction) -> UIView?
+public protocol SimplePageSlideViewDataSource: class {
+    func itemView(in containerView: SimplePageSlideView, willMoveTo direction: Direction) -> UIView?
 }
 
-class SlideContainerView: UIView {
-    weak var dataSource: SlideContainerViewDataSource?
+public class SimplePageSlideView: UIView {
+    public weak var dataSource: SimplePageSlideViewDataSource?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(mainScrollView)
-        mainScrollView.addSubview(v1)
-        mainScrollView.addSubview(v2)
+        [v1, v2].forEach {
+            $0.itemViewDelegate = self
+            mainScrollView.addSubview($0)
+        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToSuperview() {
+    override public func didMoveToSuperview() {
         super.didMoveToSuperview()
-        slideItemView(willMoveTo: .down)
+        itemView(willMoveTo: .down)
     }
     
     override public func layoutSubviews() {
@@ -37,16 +38,14 @@ class SlideContainerView: UIView {
         mainScrollView.frame = bounds
         mainScrollView.contentSize = CGSize(width: bounds.width, height: bounds.height * 2)
         
-        v1.frame.origin = CGPoint(x: 0, y: 0)
-        v1.frame.size = bounds.size
-        v2.frame.origin = CGPoint(x: 0, y: bounds.height)
-        v2.frame.size = bounds.size
+        v1.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: bounds.size)
+        v2.frame = CGRect(origin: CGPoint(x: 0, y: bounds.height), size: bounds.size)
         
         mainScrollView.setContentOffset(current.frame.origin, animated: true)
     }
     
     func slideTo(direction: Direction) {
-        slideItemView(willMoveTo: direction)
+        itemView(willMoveTo: direction)
     }
     
     func reload(current: UIView, scrollTarget: UIView? = nil) {
@@ -59,7 +58,7 @@ class SlideContainerView: UIView {
         
         if let scrollTarget = scrollTarget {
             let rect = scrollTarget.convert(scrollTarget.bounds, to: scrollView)
-            self.current.scrollView.setContentOffset(CGPoint(x: 0, y: rect.origin.y), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 0, y: rect.origin.y), animated: true)
         }
     }
     
@@ -74,14 +73,15 @@ class SlideContainerView: UIView {
     fileprivate lazy var v2: SimplePageItemView = SimplePageItemView()
 }
 
-extension SlideContainerView {
-    func slideItemView(willMoveTo direction: Direction) {
+extension SimplePageSlideView: SimplePageItemViewDelegate {
+    func itemView(willMoveTo direction: Direction) {
         guard let nextItemView = self.dataSource?.itemView(in: self, willMoveTo: direction) else { return }
         
         if direction == .up {
             mainScrollView.setContentOffset(CGPoint(x: 0, y: bounds.height), animated: false)
             v2.contentView = current.contentView
             v1.contentView = nextItemView
+            
             current = v1
         } else {
             mainScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)

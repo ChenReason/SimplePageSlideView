@@ -7,18 +7,26 @@
 //
 
 import UIKit
+import SimplePageSlideView
+import SnapKit
 
 class ViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        let v = SimplePageSlideView()
+        v.dataSource = self
+        v.frame = view.bounds
+        view.addSubview(v)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 
+extension ViewController: SimplePageSlideViewDataSource {
+    func itemView(in containerView: SimplePageSlideView, willMoveTo direction: Direction) -> UIView? {
+        let v = UIView()
+        v.snp.makeConstraints { (make) in
+            make.height.equalTo(800)
+        }
+        v.backgroundColor = direction == .up ? UIColor.green : UIColor.yellow
+        return v
+    }
+}
