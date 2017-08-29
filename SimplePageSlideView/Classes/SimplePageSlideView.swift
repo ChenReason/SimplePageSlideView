@@ -44,24 +44,6 @@ public class SimplePageSlideView: UIView {
         mainScrollView.setContentOffset(current.frame.origin, animated: true)
     }
     
-    func slideTo(direction: Direction) {
-        itemView(willMoveTo: direction)
-    }
-    
-    func reload(current: UIView, scrollTarget: UIView? = nil) {
-        self.current.contentView = current
-        layoutIfNeeded()
-        setNeedsLayout()
-        
-        let scrollView = self.current.scrollView
-        guard scrollView.contentSize.height > scrollView.frame.height else {return}
-        
-        if let scrollTarget = scrollTarget {
-            let rect = scrollTarget.convert(scrollTarget.bounds, to: scrollView)
-            scrollView.setContentOffset(CGPoint(x: 0, y: rect.origin.y), animated: true)
-        }
-    }
-    
     fileprivate lazy var mainScrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.showsVerticalScrollIndicator = false
@@ -71,6 +53,26 @@ public class SimplePageSlideView: UIView {
     fileprivate lazy var current: SimplePageItemView = SimplePageItemView()
     fileprivate lazy var v1: SimplePageItemView = SimplePageItemView()
     fileprivate lazy var v2: SimplePageItemView = SimplePageItemView()
+}
+
+public extension SimplePageSlideView {
+    public func slideTo(direction: Direction) {
+        itemView(willMoveTo: direction)
+    }
+    
+    public func reload(current: UIView, scrollTarget: UIView? = nil) {
+        self.current.contentView = current
+        layoutIfNeeded()
+        setNeedsLayout()
+        
+        let scrollView = self.current
+        guard scrollView.contentSize.height > scrollView.frame.height else {return}
+        
+        if let scrollTarget = scrollTarget {
+            let rect = scrollTarget.convert(scrollTarget.bounds, to: scrollView)
+            scrollView.setContentOffset(CGPoint(x: 0, y: rect.origin.y), animated: true)
+        }
+    }
 }
 
 extension SimplePageSlideView: SimplePageItemViewDelegate {

@@ -8,7 +8,6 @@
 
 import UIKit
 import SimplePageSlideView
-import SnapKit
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
@@ -23,9 +22,7 @@ class ViewController: UIViewController {
 extension ViewController: SimplePageSlideViewDataSource {
     func itemView(in containerView: SimplePageSlideView, willMoveTo direction: Direction) -> UIView? {
         let v = UIView()
-        v.snp.makeConstraints { (make) in
-            make.height.equalTo(800)
-        }
+        v.frame.size.height = 400
         v.backgroundColor = direction == .up ? UIColor.green : UIColor.yellow
         return v
     }
