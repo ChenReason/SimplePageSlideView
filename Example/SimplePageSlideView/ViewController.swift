@@ -21,9 +21,10 @@ class ViewController: UIViewController {
 
 extension ViewController: SimplePageSlideViewDataSource {
     func itemView(in containerView: SimplePageSlideView, willMoveTo direction: Direction) -> UIView? {
+        let colors: [UIColor] = [.green, .yellow, .blue, .gray, .brown, .orange]
         let v = UIView()
-        v.frame.size.height = 400
-        v.backgroundColor = direction == .up ? UIColor.green : UIColor.yellow
+        v.frame.size.height = 742
+        v.backgroundColor = colors[Int(arc4random()) % colors.count]
         return v
     }
 }
